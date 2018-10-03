@@ -11,7 +11,10 @@
     "url": "git+https://github.com/dovchar/generator-hyperledger-fabric.git"
   },
   "keywords": [
-    "yeoman-generator", "hyperledger", "fabric", "blockchain"
+    "yeoman-generator",
+    "hyperledger",
+    "fabric",
+    "blockchain"
   ],
   "author": "dovchar",
   "license": "Apache-2.0",
@@ -20,7 +23,9 @@
   },
   "homepage": "https://github.com/dovchar/generator-hyperledger-fabric#readme",
   "dependencies": {
-    "yeoman-generator": "^3.1.1"
+    "chalk": "^2.4.1",
+    "yeoman-generator": "^3.1.1",
+    "yosay": "^2.0.2"
   },
   "files": [
     "app"

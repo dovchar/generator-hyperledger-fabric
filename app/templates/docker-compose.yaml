@@ -1,0 +1,41 @@
+
+version: '2'
+
+networks:
+  <%= networkname %>:
+
+services:
+  orderer.<%= networkname %>.com:
+    image: hyperledger/fabric-orderer:x86_64-1.0.0
+    container_name: orderer.<%= networkname %>.com
+    environment:
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+    volumes:
+      - ./orderer/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ./crypto-config/ordererOrganizations/<%= networkname %>.com/orderers/orderer.<%= networkname %>.com/msp:/var/hyperledger/orderer/msp
+    command: orderer
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    ports:
+      - 7050:7050
+    networks:
+      - <%= networkname %>
+
+  <% if (couchdb) { %>
+  couchdb<%= networkname %>:
+    container_name: couchdb_<%= networkname %>
+    image: hyperledger/fabric-couchdb:x86_64-1.0.0
+    environment:
+      DB_URL: http://localhost:5984/
+    ports:
+      - "5984:5984"
+    networks:
+      - <%= networkname %>
+  <% } %>
+  
+  <% configs.forEach(function(config){ %>
+    <%= config %>
+  <% }) %>
